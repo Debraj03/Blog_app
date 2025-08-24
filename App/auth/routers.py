@@ -2,9 +2,8 @@ from fastapi import APIRouter,Depends
 from sqlmodel import Session,select
 from ..user.schemas import *
 from ..database import get_db
-from ..utils import hash_password,check_password,create_token
+from ..utils import hash_password,check_password,create_token,decode_token
 from .schemas import *
-
 
 auth_router=APIRouter(prefix='/auth',tags=['Auth'])
 
@@ -30,3 +29,9 @@ def user_login(login_data:Login,db:Session=Depends(get_db)):
     acess_token=create_token(data=str(user.id))
     refresh_token=create_token(data=str(user.id),refresh=True)
     return {"acess_token":acess_token,"refresh_token":refresh_token}
+
+@auth_router.get('/refresh_token/{refresh_token}')
+def generate_acess_token_from_refresh_token(refresh_token:str):
+    id=decode_token(refresh_token)
+    acess_token=create_token(data=str(id))
+    return {'acess_token':acess_token}

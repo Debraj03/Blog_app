@@ -2,7 +2,6 @@ from fastapi import APIRouter,Depends
 from ..database import get_db
 from .schemas import *
 from sqlmodel import select,Session
-from ..utils import hash_password,check_password
 from ..dependencies import get_current_user
 
 user_router=APIRouter(prefix="/users",tags=['Users'])
