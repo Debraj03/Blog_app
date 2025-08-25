@@ -11,7 +11,14 @@ def get_all_posts(db:Session=Depends(get_db)):
     posts=db.exec(select(Post).order_by(Post.created_at.desc())).all()
     return posts
 
-@post_router.post('/create',status_code=status.HTTP_201_CREATED)
+@post_router.get('/{post_id}',status_code=status.HTTP_200_OK)
+def get_all_posts(post_id:uuid.UUID,db:Session=Depends(get_db)):
+    post=db.exec(select(Post).where(Post.id==post_id)).first()
+    if not post:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail=f"post with id {post_id} not found")
+    return post
+
+@post_router.post('/',status_code=status.HTTP_201_CREATED)
 def create_post(post_data:CreatePost,user:User=Depends(get_current_user),db:Session=Depends(get_db)):
     data=post_data.model_dump()
     try:
@@ -23,7 +30,7 @@ def create_post(post_data:CreatePost,user:User=Depends(get_current_user),db:Sess
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail={"Error":str(e)})
     return post
 
-@post_router.put('/update/{post_id}',status_code=status.HTTP_202_ACCEPTED)
+@post_router.put('/{post_id}',status_code=status.HTTP_202_ACCEPTED)
 def update_post(post_id:uuid.UUID,post_data:UpdatePost,user:User=Depends(get_current_user),db:Session=Depends(get_db)):
     post=db.exec(select(Post).where(Post.id==post_id)).first()
     if not post:
@@ -40,7 +47,7 @@ def update_post(post_id:uuid.UUID,post_data:UpdatePost,user:User=Depends(get_cur
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail={"Error":str(e)})
     return post
 
-@post_router.delete('/delete/{post_id}',status_code=status.HTTP_204_NO_CONTENT)
+@post_router.delete('/{post_id}',status_code=status.HTTP_204_NO_CONTENT)
 def delete_post(post_id:uuid.UUID,user:User=Depends(get_current_user),db:Session=Depends(get_db)):
     post=db.exec(select(Post).where(Post.id==post_id)).first()
     if not post:

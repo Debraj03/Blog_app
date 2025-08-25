@@ -13,7 +13,8 @@ class User(BaseUser,table=True):
     id:uuid.UUID=Field(primary_key=True,default_factory=uuid.uuid4)
     password:str
     posts:list["Post"]=Relationship(back_populates="author")
-    
+    user_comments:list["Comments"]=Relationship(back_populates="user")
+
 class CreateUser(BaseUser):
     password:str=Field(min_length=8)
 
@@ -23,3 +24,4 @@ class UpdateUser(SQLModel):
     last_name:str|None=None
 
 from ..post.schemas import Post
+from ..comments.schemas import Comments

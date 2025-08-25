@@ -9,7 +9,8 @@ class Post(BasePost,table=True):
     id:uuid.UUID=Field(primary_key=True,default_factory=uuid.uuid4)
     author_id:uuid.UUID=Field(foreign_key="user.id")
     author:"User"=Relationship(back_populates='posts')
-
+    post_comments:list["Comments"]=Relationship(back_populates='post')
+    
 class CreatePost(BasePost):
     pass
 
@@ -18,3 +19,4 @@ class UpdatePost(SQLModel):
     content:str|None=None
 
 from ..user.schemas import User
+from ..comments.schemas import Comments
