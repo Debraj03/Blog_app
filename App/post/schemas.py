@@ -13,4 +13,8 @@ class Post(BasePost,table=True):
 class CreatePost(BasePost):
     pass
 
+class UpdatePost(SQLModel):
+    title:str|None=None
+    content:str|None=None
+
 from ..user.schemas import User

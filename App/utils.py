@@ -1,4 +1,4 @@
-from fastapi import HTTPException
+from fastapi import HTTPException,status
 from passlib.context import CryptContext
 import jwt
 from .settings import settings
@@ -31,6 +31,6 @@ def decode_token(token:str)->UUID:
         playload=jwt.decode(token,key=settings.SECRET_KEY,algorithms=[settings.ALGORITHM])
     except jwt.PyJWTError as e:
         print(e)
-        raise HTTPException(detail=f"{str(e)}")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,detail=f"{str(e)}")
     data=playload.get('sub','')
     return UUID(data)

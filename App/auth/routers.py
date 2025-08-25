@@ -1,4 +1,4 @@
-from fastapi import APIRouter,Depends
+from fastapi import APIRouter,Depends,HTTPException,status
 from sqlmodel import Session,select
 from ..user.schemas import *
 from ..database import get_db
@@ -8,7 +8,7 @@ from .schemas import *
 auth_router=APIRouter(prefix='/auth',tags=['Auth'])
 
 
-@auth_router.post("/signup")
+@auth_router.post("/signup",status_code=status.HTTP_200_OK)
 def signup_user(user_data:CreateUser,db:Session=Depends(get_db)):
     password=user_data.password
     hashed_password=hash_password(password)
@@ -19,13 +19,13 @@ def signup_user(user_data:CreateUser,db:Session=Depends(get_db)):
     db.refresh(user)
     return user
 
-@auth_router.post("/login")
+@auth_router.post("/login",status_code=status.HTTP_200_OK)
 def user_login(login_data:Login,db:Session=Depends(get_db)):
     user=db.exec(select(User).where(User.username==login_data.username)).first()
     if not user:
-        return {'error':'user not found'}
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail={'error':'user not found'}) 
     if not check_password(login_data.password,user.password):
-        return {'error':'invalid password'}
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail={'error':'invalid password'}) 
     acess_token=create_token(data=str(user.id))
     refresh_token=create_token(data=str(user.id),refresh=True)
     return {"acess_token":acess_token,"refresh_token":refresh_token}
