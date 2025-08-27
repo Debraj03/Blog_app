@@ -1,18 +1,22 @@
-from sqlmodel import SQLModel,Field,Relationship
-from typing import Optional
 import uuid
 from datetime import datetime
+from sqlmodel import SQLModel,Field,Relationship
+from typing import Optional
+
 
 class CommentsInput(SQLModel):
     content:str
+
 
 class CommentsInputwithParent(SQLModel):
     content:str
     parent_id:uuid.UUID|None=Field(default=None)
 
+
 class BaseComments(CommentsInput):
     created_at:datetime=Field(default_factory=datetime.now)
     updated_at:datetime=Field(default_factory=datetime.now)
+
 
 class Comments(BaseComments,table=True):
     id:uuid.UUID=Field(primary_key=True,default_factory=uuid.uuid4)
@@ -27,6 +31,7 @@ class Comments(BaseComments,table=True):
             "single_parent": True
         })
 
+
 class OutputComment(SQLModel):
     id:uuid.UUID
     post_id:uuid.UUID
@@ -35,5 +40,7 @@ class OutputComment(SQLModel):
     content:str
     childs:list["OutputComment"]=[]
 
+
+#Used to prevent circular import
 from ..user.schemas import User
 from ..post.schemas import Post

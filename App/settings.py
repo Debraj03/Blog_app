@@ -1,5 +1,6 @@
 from pydantic_settings import BaseSettings
 
+
 class Settings(BaseSettings):
     DB_URL:str
     ALGORITHM:str
@@ -7,4 +8,6 @@ class Settings(BaseSettings):
     model_config={
         'env_file':".env"
     }
+
+
 settings=Settings()
