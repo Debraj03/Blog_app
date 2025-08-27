@@ -10,7 +10,7 @@ from ..database import get_db
 
 
 # Creating the commnets router
-comment_router=APIRouter(prefix='/posts',tags=['comments'])
+comment_router=APIRouter(prefix='/posts',tags=['Comments'])
 
 
 @comment_router.get('/{post_id}/comments',response_model=list[OutputComment],status_code=status.HTTP_200_OK)

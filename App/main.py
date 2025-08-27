@@ -17,11 +17,11 @@ def startup_event():
 
 @app.get("/",tags=["Index"])
 def home():
-    return{"Hello":"World"}
+    return{"Blog":"App"}
 
 
 # Including all the routers
-app.include_router(user_router)
 app.include_router(auth_router)
+app.include_router(user_router)
 app.include_router(post_router)
 app.include_router(comment_router)
