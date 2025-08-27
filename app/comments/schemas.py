@@ -42,5 +42,5 @@ class OutputComment(SQLModel):
 
 
 #Used to prevent circular import
-from ..user.schemas import User
-from ..post.schemas import Post
+from user.schemas import User
+from post.schemas import Post

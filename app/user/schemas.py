@@ -32,5 +32,5 @@ class OutputUser(BaseUser):
 
 
 # Used to prevent the circular import
-from ..post.schemas import Post
-from ..comments.schemas import Comments
+from post.schemas import Post
+from comments.schemas import Comments

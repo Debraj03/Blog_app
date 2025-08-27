@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from .user.routers import user_router
-from .auth.routers import auth_router
-from .post.routers import post_router
-from .comments.routers import comment_router
-from .database import create_db_and_tables
+from user.routers import user_router
+from auth.routers import auth_router
+from post.routers import post_router
+from comments.routers import comment_router
+from database import create_db_and_tables
 
 
 app=FastAPI(title="Blog App",

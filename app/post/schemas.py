@@ -26,5 +26,5 @@ class UpdatePost(SQLModel):
 
 
 # Used to prevent circular import
-from ..user.schemas import User
-from ..comments.schemas import Comments
+from user.schemas import User
+from comments.schemas import Comments

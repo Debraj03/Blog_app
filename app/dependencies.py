@@ -2,9 +2,9 @@ from uuid import UUID
 from fastapi import Depends,HTTPException, Request
 from fastapi.security.http import HTTPBearer, HTTPAuthorizationCredentials
 from sqlmodel import Session, select
-from .utils import decode_token
-from .user.schemas import User
-from .database import get_db
+from utils import decode_token
+from user.schemas import User
+from database import get_db
 
 
 class DecodeToken(HTTPBearer):

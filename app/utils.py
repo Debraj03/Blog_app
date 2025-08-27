@@ -3,7 +3,7 @@ from uuid import UUID
 from fastapi import HTTPException,status
 from passlib.context import CryptContext
 from datetime import datetime,timedelta
-from .settings import settings
+from settings import settings
 
 
 context=CryptContext(schemes=['bcrypt'], deprecated="auto")

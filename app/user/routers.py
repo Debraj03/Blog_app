@@ -1,8 +1,8 @@
 from fastapi import APIRouter,Depends,status,HTTPException
 from sqlmodel import select,Session
-from ..database import get_db
+from database import get_db
 from .schemas import User,OutputUser,UpdateUser
-from ..dependencies import get_current_user
+from dependencies import get_current_user
 
 
 # Creting the user router

@@ -1,8 +1,8 @@
 from fastapi import APIRouter,Depends,HTTPException,status
 from sqlmodel import Session,select
-from ..user.schemas import User,CreateUser
-from ..database import get_db
-from ..utils import hash_password,check_password,create_token,decode_token
+from user.schemas import User,CreateUser
+from database import get_db
+from utils import hash_password,check_password,create_token,decode_token
 from .schemas import Login
 
 
