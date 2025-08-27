@@ -12,11 +12,15 @@ app=FastAPI(title="Blog App",
 
 @app.on_event('startup')
 def startup_event():
+    """Creates all the db and tables on the startup of the app"""
+
     create_db_and_tables()
 
 
 @app.get("/",tags=["Index"])
 def home():
+    """home route"""
+
     return{"Blog":"App"}
 
 
