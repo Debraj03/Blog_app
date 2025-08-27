@@ -2,11 +2,11 @@ import uuid
 from datetime import datetime
 from fastapi import APIRouter,HTTPException,status,Depends
 from sqlmodel import Session,select,col
-from .schemas import Comments,OutputComment,CommentsInput,CommentsInputwithParent
 from post.schemas import Post
 from user.schemas import User
 from dependencies import get_current_user
 from database import get_db
+from .schemas import Comments,OutputComment,CommentsInput,CommentsInputwithParent
 
 
 # Creating the commnets router

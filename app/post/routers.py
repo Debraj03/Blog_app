@@ -2,10 +2,10 @@ import uuid
 from fastapi import APIRouter,Depends,status,HTTPException,Query
 from typing import Annotated
 from sqlmodel import Session,select
-from .schemas import Post,CreatePost,UpdatePost
 from user.schemas import User
 from database import get_db
 from dependencies import get_current_user
+from .schemas import Post,CreatePost,UpdatePost
 
 
 # Creating the post router
