@@ -6,7 +6,7 @@ from ..dependencies import get_current_user
 
 
 # Creting the user router
-user_router=APIRouter(prefix="/users",tags=['Users'])
+user_router=APIRouter(prefix="/users",tags=['User'])
 
 
 @user_router.get('',response_model=list[OutputUser],status_code=status.HTTP_200_OK)
