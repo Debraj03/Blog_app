@@ -35,4 +35,6 @@ Relational models (posts ↔ comments).
 <!-- env variablles -->
 <!-- DB_URL="sqlite:///database.db"
 ALGORITHM="HS256"
-SECRET_KEY="1f5wegf46wrg4r56grqwg4r5g4grgvrqsvd4vsvvawrgfragvrg45" -->
+SECRET_KEY="1f5wegf46wrg4r56grqwg4r5g4grgvrqsvd4vsvvawrgfragvrg45" 
+run uvicorn main:app --reload
+-->
