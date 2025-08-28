@@ -30,16 +30,16 @@ class Comments(BaseComments,table=True):
     """Schema for the Comments table."""
 
     id: uuid.UUID = Field(primary_key=True, default_factory=uuid.uuid4)
-    post_id: uuid.UUID = Field(foreign_key='post.id')
+    post_id: uuid.UUID = Field(foreign_key='post.id', ondelete="CASCADE")
     post: "Post" = Relationship(back_populates='post_comments')
     user_id: uuid.UUID = Field(foreign_key='user.id')
     user: "User" = Relationship(back_populates='user_comments')
-    parent_id: uuid.UUID = Field(foreign_key='comments.id', nullable=True, default=None)
+    parent_id: uuid.UUID = Field(foreign_key='comments.id', nullable=True, default=None, ondelete="CASCADE")
     parent: Optional["Comments"] = Relationship(back_populates='childs',
                                                 sa_relationship_kwargs={"remote_side": "Comments.id"})
     childs: list["Comments"] = Relationship(back_populates='parent',
+                                            cascade_delete=True,
                                             sa_relationship_kwargs={
-            "cascade": "all, delete-orphan",
             "single_parent": True
         })
 

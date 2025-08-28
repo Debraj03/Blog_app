@@ -15,10 +15,7 @@ class Post(BasePost, table=True):
     id: uuid.UUID = Field(primary_key=True, default_factory=uuid.uuid4)
     author_id: uuid.UUID = Field(foreign_key="user.id")
     author: "User" = Relationship(back_populates='posts')
-    post_comments: list["Comments"] = Relationship(back_populates='post',
-                                                   sa_relationship_kwargs={
-                                                       "cascade": "all, delete-orphan",
-                                                   })
+    post_comments: list["Comments"] = Relationship(back_populates='post',cascade_delete=True)
     created_at: datetime = Field(default_factory=datetime.now)
     
 
