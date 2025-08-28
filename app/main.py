@@ -7,21 +7,22 @@ from database import create_db_and_tables
 
 
 app=FastAPI(title="Blog App",
-            description="This is a Blog app api where you can post your blogs and read or create commnets on them")
+            description="This is a Blog app api where you can post " \
+            "your blogs and read or create commnets on them.")
 
 
 @app.on_event('startup')
 def startup_event():
-    """Creates all the db and tables on the startup of the app"""
+    """Creates all the db and tables on the startup of the app."""
 
     create_db_and_tables()
 
 
-@app.get("/",tags=["Index"])
+@app.get("/", tags=["Index"])
 def home():
     """home route"""
 
-    return{"Blog":"App"}
+    return {"Blog":"App"}
 
 
 # Including all the routers

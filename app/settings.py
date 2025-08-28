@@ -2,6 +2,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    
     DB_URL:str
     ALGORITHM:str
     SECRET_KEY:str
@@ -10,4 +11,4 @@ class Settings(BaseSettings):
     }
 
 
-settings=Settings()
+settings = Settings()
