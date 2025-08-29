@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlmodel import Session, select
+from sqlalchemy.exc import IntegrityError
 from user.schemas import User, CreateUser
 from database import get_db
 from utils import hash_password, check_password, create_token, decode_token
@@ -19,9 +20,16 @@ def signup_user(user_data:CreateUser,
     hashed_password = hash_password(password)
     data = user_data.model_dump(exclude='password')
     user = User(**data, password=hashed_password)
-    db.add(user)
-    db.commit()
-    db.refresh(user)
+    try:
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+    except IntegrityError as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail={'error':f'Data integrity error.{str(e)}'})
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail={'error':str(e)})
     return user
 
 

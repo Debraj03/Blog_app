@@ -52,9 +52,13 @@ def create_comment(post_id: uuid.UUID,
     data = comment_data.model_dump()
     comment = Comments(**data,user=user,
                        user_id=user.id, post=post, post_id=post.id)
-    db.add(comment)
-    db.commit()
-    db.refresh(comment)
+    try:
+        db.add(comment)
+        db.commit()
+        db.refresh(comment)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail={'error':str(e)})
     return comment
 
 
@@ -85,9 +89,13 @@ def update_comment(post_id: uuid.UUID,
     data = comment_data.model_dump()
     data.update({'updated_at':datetime.now()})
     comment = comment.sqlmodel_update(data)
-    db.add(comment)
-    db.commit()
-    db.refresh(comment)
+    try:
+        db.add(comment)
+        db.commit()
+        db.refresh(comment)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail={'error':str(e)})
     return comment
 
 
@@ -113,6 +121,10 @@ def delete_comment(post_id: uuid.UUID,
     if comment.user_id != user.id:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                             detail={"error":"You are unauthorized to delete this comment"})
-    db.delete(comment)
-    db.commit()
+    try:
+        db.delete(comment)
+        db.commit()
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail={'error':str(e)})
     return {'message':'Comment deleted sucessfully'}
